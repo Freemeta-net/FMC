@@ -24,13 +24,13 @@ import (
 	"net"
 	"os"
 
-	"github.com/ethereum/go-ethereum/cmd/utils"
-	"github.com/ethereum/go-ethereum/crypto"
-	"github.com/ethereum/go-ethereum/log"
-	"github.com/ethereum/go-ethereum/p2p/discover"
-	"github.com/ethereum/go-ethereum/p2p/enode"
-	"github.com/ethereum/go-ethereum/p2p/nat"
-	"github.com/ethereum/go-ethereum/p2p/netutil"
+	"github.com/Freemeta-net/FMC/cmd/utils"
+	"github.com/Freemeta-net/FMC/crypto"
+	"github.com/Freemeta-net/FMC/log"
+	"github.com/Freemeta-net/FMC/p2p/discover"
+	"github.com/Freemeta-net/FMC/p2p/enode"
+	"github.com/Freemeta-net/FMC/p2p/nat"
+	"github.com/Freemeta-net/FMC/p2p/netutil"
 )
 
 func main() {

@@ -20,12 +20,12 @@ import (
 	"encoding/json"
 	"fmt"
 
-	"github.com/ethereum/go-ethereum/common"
-	"github.com/ethereum/go-ethereum/common/hexutil"
-	"github.com/ethereum/go-ethereum/consensus"
-	"github.com/ethereum/go-ethereum/core/types"
-	"github.com/ethereum/go-ethereum/rlp"
-	"github.com/ethereum/go-ethereum/rpc"
+	"github.com/Freemeta-net/FMC/common"
+	"github.com/Freemeta-net/FMC/common/hexutil"
+	"github.com/Freemeta-net/FMC/consensus"
+	"github.com/Freemeta-net/FMC/core/types"
+	"github.com/Freemeta-net/FMC/rlp"
+	"github.com/Freemeta-net/FMC/rpc"
 )
 
 // API is a user facing RPC API to allow controlling the signer and voting

@@ -23,12 +23,12 @@ import (
 	"runtime"
 	"runtime/debug"
 
-	"github.com/ethereum/go-ethereum"
-	"github.com/ethereum/go-ethereum/common"
-	"github.com/ethereum/go-ethereum/common/hexutil"
-	"github.com/ethereum/go-ethereum/core/types"
-	"github.com/ethereum/go-ethereum/p2p"
-	"github.com/ethereum/go-ethereum/rpc"
+	"github.com/Freemeta-net/FMC"
+	"github.com/Freemeta-net/FMC/common"
+	"github.com/Freemeta-net/FMC/common/hexutil"
+	"github.com/Freemeta-net/FMC/core/types"
+	"github.com/Freemeta-net/FMC/p2p"
+	"github.com/Freemeta-net/FMC/rpc"
 )
 
 // Client is a wrapper around rpc.Client that implements geth-specific functionality.

@@ -20,16 +20,16 @@ import (
 	"math/big"
 	"testing"
 
-	"github.com/ethereum/go-ethereum/common"
-	"github.com/ethereum/go-ethereum/common/hexutil"
-	"github.com/ethereum/go-ethereum/core"
-	"github.com/ethereum/go-ethereum/core/rawdb"
-	"github.com/ethereum/go-ethereum/core/types"
-	"github.com/ethereum/go-ethereum/core/vm"
-	"github.com/ethereum/go-ethereum/crypto"
-	"github.com/ethereum/go-ethereum/eth/tracers/logger"
-	"github.com/ethereum/go-ethereum/params"
-	"github.com/ethereum/go-ethereum/tests"
+	"github.com/Freemeta-net/FMC/common"
+	"github.com/Freemeta-net/FMC/common/hexutil"
+	"github.com/Freemeta-net/FMC/core"
+	"github.com/Freemeta-net/FMC/core/rawdb"
+	"github.com/Freemeta-net/FMC/core/types"
+	"github.com/Freemeta-net/FMC/core/vm"
+	"github.com/Freemeta-net/FMC/crypto"
+	"github.com/Freemeta-net/FMC/eth/tracers/logger"
+	"github.com/Freemeta-net/FMC/params"
+	"github.com/Freemeta-net/FMC/tests"
 )
 
 // callTrace is the result of a callTracer run.

@@ -25,12 +25,12 @@ import (
 	"time"
 
 	"github.com/dop251/goja"
-	"github.com/ethereum/go-ethereum/accounts/scwallet"
-	"github.com/ethereum/go-ethereum/accounts/usbwallet"
-	"github.com/ethereum/go-ethereum/common/hexutil"
-	"github.com/ethereum/go-ethereum/console/prompt"
-	"github.com/ethereum/go-ethereum/internal/jsre"
-	"github.com/ethereum/go-ethereum/rpc"
+	"github.com/Freemeta-net/FMC/accounts/scwallet"
+	"github.com/Freemeta-net/FMC/accounts/usbwallet"
+	"github.com/Freemeta-net/FMC/common/hexutil"
+	"github.com/Freemeta-net/FMC/console/prompt"
+	"github.com/Freemeta-net/FMC/internal/jsre"
+	"github.com/Freemeta-net/FMC/rpc"
 )
 
 // bridge is a collection of JavaScript utility methods to bride the .js runtime

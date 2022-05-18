@@ -21,9 +21,9 @@ import (
 	"math/big"
 	"time"
 
-	"github.com/ethereum/go-ethereum/common"
-	"github.com/ethereum/go-ethereum/core/forkid"
-	"github.com/ethereum/go-ethereum/p2p"
+	"github.com/Freemeta-net/FMC/common"
+	"github.com/Freemeta-net/FMC/core/forkid"
+	"github.com/Freemeta-net/FMC/p2p"
 )
 
 const (

@@ -19,10 +19,10 @@ package trie
 import (
 	"fmt"
 
-	"github.com/ethereum/go-ethereum/common"
-	"github.com/ethereum/go-ethereum/core/types"
-	"github.com/ethereum/go-ethereum/log"
-	"github.com/ethereum/go-ethereum/rlp"
+	"github.com/Freemeta-net/FMC/common"
+	"github.com/Freemeta-net/FMC/core/types"
+	"github.com/Freemeta-net/FMC/log"
+	"github.com/Freemeta-net/FMC/rlp"
 )
 
 // SecureTrie wraps a trie with key hashing. In a secure trie, all

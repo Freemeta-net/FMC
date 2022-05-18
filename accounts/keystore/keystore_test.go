@@ -28,10 +28,10 @@ import (
 	"testing"
 	"time"
 
-	"github.com/ethereum/go-ethereum/accounts"
-	"github.com/ethereum/go-ethereum/common"
-	"github.com/ethereum/go-ethereum/crypto"
-	"github.com/ethereum/go-ethereum/event"
+	"github.com/Freemeta-net/FMC/accounts"
+	"github.com/Freemeta-net/FMC/common"
+	"github.com/Freemeta-net/FMC/crypto"
+	"github.com/Freemeta-net/FMC/event"
 )
 
 var testSigData = make([]byte, 32)

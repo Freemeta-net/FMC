@@ -1,4 +1,4 @@
-module github.com/ethereum/go-ethereum
+module github.com/Freemeta-net/FMC
 
 go 1.15
 

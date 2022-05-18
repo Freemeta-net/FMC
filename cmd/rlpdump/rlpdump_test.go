@@ -6,8 +6,8 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/ethereum/go-ethereum/common"
-	"github.com/ethereum/go-ethereum/common/hexutil"
+	"github.com/Freemeta-net/FMC/common"
+	"github.com/Freemeta-net/FMC/common/hexutil"
 )
 
 func TestRoundtrip(t *testing.T) {

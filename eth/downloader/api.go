@@ -20,9 +20,9 @@ import (
 	"context"
 	"sync"
 
-	"github.com/ethereum/go-ethereum"
-	"github.com/ethereum/go-ethereum/event"
-	"github.com/ethereum/go-ethereum/rpc"
+	"github.com/Freemeta-net/FMC"
+	"github.com/Freemeta-net/FMC/event"
+	"github.com/Freemeta-net/FMC/rpc"
 )
 
 // PublicDownloaderAPI provides an API which gives information about the current synchronisation status.

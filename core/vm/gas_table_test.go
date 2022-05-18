@@ -21,11 +21,11 @@ import (
 	"math/big"
 	"testing"
 
-	"github.com/ethereum/go-ethereum/common"
-	"github.com/ethereum/go-ethereum/common/hexutil"
-	"github.com/ethereum/go-ethereum/core/rawdb"
-	"github.com/ethereum/go-ethereum/core/state"
-	"github.com/ethereum/go-ethereum/params"
+	"github.com/Freemeta-net/FMC/common"
+	"github.com/Freemeta-net/FMC/common/hexutil"
+	"github.com/Freemeta-net/FMC/core/rawdb"
+	"github.com/Freemeta-net/FMC/core/state"
+	"github.com/Freemeta-net/FMC/params"
 )
 
 func TestMemoryGasCost(t *testing.T) {

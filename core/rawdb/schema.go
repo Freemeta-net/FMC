@@ -21,8 +21,8 @@ import (
 	"bytes"
 	"encoding/binary"
 
-	"github.com/ethereum/go-ethereum/common"
-	"github.com/ethereum/go-ethereum/metrics"
+	"github.com/Freemeta-net/FMC/common"
+	"github.com/Freemeta-net/FMC/metrics"
 )
 
 // The fields below define the low level database schema prefixing.

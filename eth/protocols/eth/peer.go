@@ -22,10 +22,10 @@ import (
 	"sync"
 
 	mapset "github.com/deckarep/golang-set"
-	"github.com/ethereum/go-ethereum/common"
-	"github.com/ethereum/go-ethereum/core/types"
-	"github.com/ethereum/go-ethereum/p2p"
-	"github.com/ethereum/go-ethereum/rlp"
+	"github.com/Freemeta-net/FMC/common"
+	"github.com/Freemeta-net/FMC/core/types"
+	"github.com/Freemeta-net/FMC/p2p"
+	"github.com/Freemeta-net/FMC/rlp"
 )
 
 const (

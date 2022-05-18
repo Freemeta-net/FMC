@@ -27,13 +27,13 @@ import (
 	"testing"
 	"time"
 
-	"github.com/ethereum/go-ethereum/accounts/abi/bind"
-	"github.com/ethereum/go-ethereum/accounts/abi/bind/backends"
-	"github.com/ethereum/go-ethereum/common"
-	"github.com/ethereum/go-ethereum/contracts/checkpointoracle/contract"
-	"github.com/ethereum/go-ethereum/core"
-	"github.com/ethereum/go-ethereum/crypto"
-	"github.com/ethereum/go-ethereum/params"
+	"github.com/Freemeta-net/FMC/accounts/abi/bind"
+	"github.com/Freemeta-net/FMC/accounts/abi/bind/backends"
+	"github.com/Freemeta-net/FMC/common"
+	"github.com/Freemeta-net/FMC/contracts/checkpointoracle/contract"
+	"github.com/Freemeta-net/FMC/core"
+	"github.com/Freemeta-net/FMC/crypto"
+	"github.com/Freemeta-net/FMC/params"
 )
 
 var (

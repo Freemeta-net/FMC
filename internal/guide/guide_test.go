@@ -30,9 +30,9 @@ import (
 	"testing"
 	"time"
 
-	"github.com/ethereum/go-ethereum/accounts/keystore"
-	"github.com/ethereum/go-ethereum/common"
-	"github.com/ethereum/go-ethereum/core/types"
+	"github.com/Freemeta-net/FMC/accounts/keystore"
+	"github.com/Freemeta-net/FMC/common"
+	"github.com/Freemeta-net/FMC/core/types"
 )
 
 // Tests that the account management snippets work correctly.

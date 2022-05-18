@@ -23,9 +23,9 @@ import (
 	"crypto/rand"
 	"testing"
 
-	"github.com/ethereum/go-ethereum/common"
-	"github.com/ethereum/go-ethereum/p2p"
-	"github.com/ethereum/go-ethereum/p2p/enode"
+	"github.com/Freemeta-net/FMC/common"
+	"github.com/Freemeta-net/FMC/p2p"
+	"github.com/Freemeta-net/FMC/p2p/enode"
 )
 
 // testPeer is a simulated peer to allow testing direct network calls.

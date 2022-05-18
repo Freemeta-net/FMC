@@ -24,15 +24,15 @@ import (
 	"sort"
 	"time"
 
-	"github.com/ethereum/go-ethereum/common"
-	"github.com/ethereum/go-ethereum/core/rawdb"
-	"github.com/ethereum/go-ethereum/core/state/snapshot"
-	"github.com/ethereum/go-ethereum/core/types"
-	"github.com/ethereum/go-ethereum/crypto"
-	"github.com/ethereum/go-ethereum/log"
-	"github.com/ethereum/go-ethereum/metrics"
-	"github.com/ethereum/go-ethereum/rlp"
-	"github.com/ethereum/go-ethereum/trie"
+	"github.com/Freemeta-net/FMC/common"
+	"github.com/Freemeta-net/FMC/core/rawdb"
+	"github.com/Freemeta-net/FMC/core/state/snapshot"
+	"github.com/Freemeta-net/FMC/core/types"
+	"github.com/Freemeta-net/FMC/crypto"
+	"github.com/Freemeta-net/FMC/log"
+	"github.com/Freemeta-net/FMC/metrics"
+	"github.com/Freemeta-net/FMC/rlp"
+	"github.com/Freemeta-net/FMC/trie"
 )
 
 type revision struct {
@@ -660,7 +660,7 @@ func (s *StateDB) Copy() *StateDB {
 	}
 	// Copy the dirty states, logs, and preimages
 	for addr := range s.journal.dirties {
-		// As documented [here](https://github.com/ethereum/go-ethereum/pull/16485#issuecomment-380438527),
+		// As documented [here](https://github.com/Freemeta-net/FMC/pull/16485#issuecomment-380438527),
 		// and in the Finalise-method, there is a case where an object is in the journal but not
 		// in the stateObjects: OOG after touch on ripeMD prior to Byzantium. Thus, we need to check for
 		// nil

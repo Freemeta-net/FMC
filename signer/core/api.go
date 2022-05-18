@@ -25,17 +25,17 @@ import (
 	"os"
 	"reflect"
 
-	"github.com/ethereum/go-ethereum/accounts"
-	"github.com/ethereum/go-ethereum/accounts/keystore"
-	"github.com/ethereum/go-ethereum/accounts/scwallet"
-	"github.com/ethereum/go-ethereum/accounts/usbwallet"
-	"github.com/ethereum/go-ethereum/common"
-	"github.com/ethereum/go-ethereum/common/hexutil"
-	"github.com/ethereum/go-ethereum/internal/ethapi"
-	"github.com/ethereum/go-ethereum/log"
-	"github.com/ethereum/go-ethereum/rpc"
-	"github.com/ethereum/go-ethereum/signer/core/apitypes"
-	"github.com/ethereum/go-ethereum/signer/storage"
+	"github.com/Freemeta-net/FMC/accounts"
+	"github.com/Freemeta-net/FMC/accounts/keystore"
+	"github.com/Freemeta-net/FMC/accounts/scwallet"
+	"github.com/Freemeta-net/FMC/accounts/usbwallet"
+	"github.com/Freemeta-net/FMC/common"
+	"github.com/Freemeta-net/FMC/common/hexutil"
+	"github.com/Freemeta-net/FMC/internal/ethapi"
+	"github.com/Freemeta-net/FMC/log"
+	"github.com/Freemeta-net/FMC/rpc"
+	"github.com/Freemeta-net/FMC/signer/core/apitypes"
+	"github.com/Freemeta-net/FMC/signer/storage"
 )
 
 const (

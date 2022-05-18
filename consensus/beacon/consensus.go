@@ -21,14 +21,14 @@ import (
 	"fmt"
 	"math/big"
 
-	"github.com/ethereum/go-ethereum/common"
-	"github.com/ethereum/go-ethereum/consensus"
-	"github.com/ethereum/go-ethereum/consensus/misc"
-	"github.com/ethereum/go-ethereum/core/state"
-	"github.com/ethereum/go-ethereum/core/types"
-	"github.com/ethereum/go-ethereum/params"
-	"github.com/ethereum/go-ethereum/rpc"
-	"github.com/ethereum/go-ethereum/trie"
+	"github.com/Freemeta-net/FMC/common"
+	"github.com/Freemeta-net/FMC/consensus"
+	"github.com/Freemeta-net/FMC/consensus/misc"
+	"github.com/Freemeta-net/FMC/core/state"
+	"github.com/Freemeta-net/FMC/core/types"
+	"github.com/Freemeta-net/FMC/params"
+	"github.com/Freemeta-net/FMC/rpc"
+	"github.com/Freemeta-net/FMC/trie"
 )
 
 // Proof-of-stake protocol constants.

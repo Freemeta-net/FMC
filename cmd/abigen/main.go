@@ -25,13 +25,13 @@ import (
 	"regexp"
 	"strings"
 
-	"github.com/ethereum/go-ethereum/accounts/abi"
-	"github.com/ethereum/go-ethereum/accounts/abi/bind"
-	"github.com/ethereum/go-ethereum/cmd/utils"
-	"github.com/ethereum/go-ethereum/common/compiler"
-	"github.com/ethereum/go-ethereum/crypto"
-	"github.com/ethereum/go-ethereum/internal/flags"
-	"github.com/ethereum/go-ethereum/log"
+	"github.com/Freemeta-net/FMC/accounts/abi"
+	"github.com/Freemeta-net/FMC/accounts/abi/bind"
+	"github.com/Freemeta-net/FMC/cmd/utils"
+	"github.com/Freemeta-net/FMC/common/compiler"
+	"github.com/Freemeta-net/FMC/crypto"
+	"github.com/Freemeta-net/FMC/internal/flags"
+	"github.com/Freemeta-net/FMC/log"
 	"gopkg.in/urfave/cli.v1"
 )
 

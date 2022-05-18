@@ -22,7 +22,7 @@ import (
 	"sort"
 	"testing"
 
-	"github.com/ethereum/go-ethereum/ethdb"
+	"github.com/Freemeta-net/FMC/ethdb"
 )
 
 // TestDatabaseSuite runs a suite of tests against a KeyValueStore database

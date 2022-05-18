@@ -28,14 +28,14 @@ import (
 	"unicode"
 	"unsafe"
 
-	"github.com/ethereum/go-ethereum/common"
-	"github.com/ethereum/go-ethereum/common/hexutil"
-	"github.com/ethereum/go-ethereum/core"
-	"github.com/ethereum/go-ethereum/core/vm"
-	"github.com/ethereum/go-ethereum/crypto"
-	tracers2 "github.com/ethereum/go-ethereum/eth/tracers"
-	"github.com/ethereum/go-ethereum/eth/tracers/js/internal/tracers"
-	"github.com/ethereum/go-ethereum/log"
+	"github.com/Freemeta-net/FMC/common"
+	"github.com/Freemeta-net/FMC/common/hexutil"
+	"github.com/Freemeta-net/FMC/core"
+	"github.com/Freemeta-net/FMC/core/vm"
+	"github.com/Freemeta-net/FMC/crypto"
+	tracers2 "github.com/Freemeta-net/FMC/eth/tracers"
+	"github.com/Freemeta-net/FMC/eth/tracers/js/internal/tracers"
+	"github.com/Freemeta-net/FMC/log"
 	"gopkg.in/olebedev/go-duktape.v3"
 )
 

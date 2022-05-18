@@ -23,11 +23,11 @@ import (
 	"io/ioutil"
 	"os"
 
-	"github.com/ethereum/go-ethereum/core/state"
-	"github.com/ethereum/go-ethereum/core/vm"
-	"github.com/ethereum/go-ethereum/eth/tracers/logger"
-	"github.com/ethereum/go-ethereum/log"
-	"github.com/ethereum/go-ethereum/tests"
+	"github.com/Freemeta-net/FMC/core/state"
+	"github.com/Freemeta-net/FMC/core/vm"
+	"github.com/Freemeta-net/FMC/eth/tracers/logger"
+	"github.com/Freemeta-net/FMC/log"
+	"github.com/Freemeta-net/FMC/tests"
 
 	"gopkg.in/urfave/cli.v1"
 )

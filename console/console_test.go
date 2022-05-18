@@ -26,15 +26,15 @@ import (
 	"testing"
 	"time"
 
-	"github.com/ethereum/go-ethereum/common"
-	"github.com/ethereum/go-ethereum/consensus/ethash"
-	"github.com/ethereum/go-ethereum/console/prompt"
-	"github.com/ethereum/go-ethereum/core"
-	"github.com/ethereum/go-ethereum/eth"
-	"github.com/ethereum/go-ethereum/eth/ethconfig"
-	"github.com/ethereum/go-ethereum/internal/jsre"
-	"github.com/ethereum/go-ethereum/miner"
-	"github.com/ethereum/go-ethereum/node"
+	"github.com/Freemeta-net/FMC/common"
+	"github.com/Freemeta-net/FMC/consensus/ethash"
+	"github.com/Freemeta-net/FMC/console/prompt"
+	"github.com/Freemeta-net/FMC/core"
+	"github.com/Freemeta-net/FMC/eth"
+	"github.com/Freemeta-net/FMC/eth/ethconfig"
+	"github.com/Freemeta-net/FMC/internal/jsre"
+	"github.com/Freemeta-net/FMC/miner"
+	"github.com/Freemeta-net/FMC/node"
 )
 
 const (

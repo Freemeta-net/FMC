@@ -41,10 +41,10 @@ import (
 	"sync"
 	"time"
 
-	"github.com/ethereum/go-ethereum/accounts"
-	"github.com/ethereum/go-ethereum/common"
-	"github.com/ethereum/go-ethereum/event"
-	"github.com/ethereum/go-ethereum/log"
+	"github.com/Freemeta-net/FMC/accounts"
+	"github.com/Freemeta-net/FMC/common"
+	"github.com/Freemeta-net/FMC/event"
+	"github.com/Freemeta-net/FMC/log"
 	pcsc "github.com/gballet/go-libpcsclite"
 )
 

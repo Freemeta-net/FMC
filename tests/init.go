@@ -21,7 +21,7 @@ import (
 	"math/big"
 	"sort"
 
-	"github.com/ethereum/go-ethereum/params"
+	"github.com/Freemeta-net/FMC/params"
 )
 
 // Forks table defines supported forks and their chain config.

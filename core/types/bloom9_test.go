@@ -21,8 +21,8 @@ import (
 	"math/big"
 	"testing"
 
-	"github.com/ethereum/go-ethereum/common"
-	"github.com/ethereum/go-ethereum/crypto"
+	"github.com/Freemeta-net/FMC/common"
+	"github.com/Freemeta-net/FMC/crypto"
 )
 
 func TestBloom(t *testing.T) {

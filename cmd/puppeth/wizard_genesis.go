@@ -29,10 +29,10 @@ import (
 	"path/filepath"
 	"time"
 
-	"github.com/ethereum/go-ethereum/common"
-	"github.com/ethereum/go-ethereum/core"
-	"github.com/ethereum/go-ethereum/log"
-	"github.com/ethereum/go-ethereum/params"
+	"github.com/Freemeta-net/FMC/common"
+	"github.com/Freemeta-net/FMC/core"
+	"github.com/Freemeta-net/FMC/log"
+	"github.com/Freemeta-net/FMC/params"
 )
 
 // makeGenesis creates a new genesis struct based on some user input.

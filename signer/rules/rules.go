@@ -23,11 +23,11 @@ import (
 	"strings"
 
 	"github.com/dop251/goja"
-	"github.com/ethereum/go-ethereum/internal/ethapi"
-	"github.com/ethereum/go-ethereum/internal/jsre/deps"
-	"github.com/ethereum/go-ethereum/log"
-	"github.com/ethereum/go-ethereum/signer/core"
-	"github.com/ethereum/go-ethereum/signer/storage"
+	"github.com/Freemeta-net/FMC/internal/ethapi"
+	"github.com/Freemeta-net/FMC/internal/jsre/deps"
+	"github.com/Freemeta-net/FMC/log"
+	"github.com/Freemeta-net/FMC/signer/core"
+	"github.com/Freemeta-net/FMC/signer/storage"
 )
 
 var (

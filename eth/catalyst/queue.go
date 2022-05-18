@@ -19,9 +19,9 @@ package catalyst
 import (
 	"sync"
 
-	"github.com/ethereum/go-ethereum/common"
-	"github.com/ethereum/go-ethereum/core/beacon"
-	"github.com/ethereum/go-ethereum/core/types"
+	"github.com/Freemeta-net/FMC/common"
+	"github.com/Freemeta-net/FMC/core/beacon"
+	"github.com/Freemeta-net/FMC/core/types"
 )
 
 // maxTrackedPayloads is the maximum number of prepared payloads the execution

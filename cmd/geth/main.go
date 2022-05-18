@@ -25,24 +25,24 @@ import (
 	"strings"
 	"time"
 
-	"github.com/ethereum/go-ethereum/accounts"
-	"github.com/ethereum/go-ethereum/accounts/keystore"
-	"github.com/ethereum/go-ethereum/cmd/utils"
-	"github.com/ethereum/go-ethereum/common"
-	"github.com/ethereum/go-ethereum/console/prompt"
-	"github.com/ethereum/go-ethereum/eth"
-	"github.com/ethereum/go-ethereum/eth/downloader"
-	"github.com/ethereum/go-ethereum/ethclient"
-	"github.com/ethereum/go-ethereum/internal/debug"
-	"github.com/ethereum/go-ethereum/internal/ethapi"
-	"github.com/ethereum/go-ethereum/internal/flags"
-	"github.com/ethereum/go-ethereum/log"
-	"github.com/ethereum/go-ethereum/metrics"
-	"github.com/ethereum/go-ethereum/node"
+	"github.com/Freemeta-net/FMC/accounts"
+	"github.com/Freemeta-net/FMC/accounts/keystore"
+	"github.com/Freemeta-net/FMC/cmd/utils"
+	"github.com/Freemeta-net/FMC/common"
+	"github.com/Freemeta-net/FMC/console/prompt"
+	"github.com/Freemeta-net/FMC/eth"
+	"github.com/Freemeta-net/FMC/eth/downloader"
+	"github.com/Freemeta-net/FMC/ethclient"
+	"github.com/Freemeta-net/FMC/internal/debug"
+	"github.com/Freemeta-net/FMC/internal/ethapi"
+	"github.com/Freemeta-net/FMC/internal/flags"
+	"github.com/Freemeta-net/FMC/log"
+	"github.com/Freemeta-net/FMC/metrics"
+	"github.com/Freemeta-net/FMC/node"
 
 	// Force-load the tracer engines to trigger registration
-	_ "github.com/ethereum/go-ethereum/eth/tracers/js"
-	_ "github.com/ethereum/go-ethereum/eth/tracers/native"
+	_ "github.com/Freemeta-net/FMC/eth/tracers/js"
+	_ "github.com/Freemeta-net/FMC/eth/tracers/native"
 
 	"gopkg.in/urfave/cli.v1"
 )
@@ -214,7 +214,7 @@ func init() {
 	// Initialize the CLI app and start Geth
 	app.Action = geth
 	app.HideVersion = true // we have a command to print the version
-	app.Copyright = "Copyright 2013-2022 The go-ethereum Authors"
+	app.Copyright = "Copyright 2013-2022 The go-ethereum Authors, FMC Test"
 	app.Commands = []cli.Command{
 		// See chaincmd.go:
 		initCommand,
