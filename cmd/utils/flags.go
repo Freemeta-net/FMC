@@ -40,6 +40,7 @@ import (
 	"github.com/Freemeta-net/FMC/consensus"
 	"github.com/Freemeta-net/FMC/consensus/clique"
 	"github.com/Freemeta-net/FMC/consensus/ethash"
+	"github.com/Freemeta-net/FMC/consensus/taerim"
 	"github.com/Freemeta-net/FMC/core"
 	"github.com/Freemeta-net/FMC/core/rawdb"
 	"github.com/Freemeta-net/FMC/core/vm"
@@ -1971,6 +1972,8 @@ func MakeChain(ctx *cli.Context, stack *node.Node) (chain *core.BlockChain, chai
 	var engine consensus.Engine
 	if config.Clique != nil {
 		engine = clique.New(config.Clique, chainDb)
+	} else if config.Taerim != nil {
+		engine = taerim.New(config.Taerim, chainDb)
 	} else {
 		engine = ethash.NewFaker()
 		if !ctx.GlobalBool(FakePoWFlag.Name) {

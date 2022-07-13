@@ -22,7 +22,7 @@ import (
 	"math/big"
 	"time"
 
-	"github.com/Freemeta-net/FMC"
+	ethereum "github.com/Freemeta-net/FMC"
 	"github.com/Freemeta-net/FMC/accounts"
 	"github.com/Freemeta-net/FMC/common"
 	"github.com/Freemeta-net/FMC/consensus"

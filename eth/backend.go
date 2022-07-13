@@ -32,6 +32,7 @@ import (
 	"github.com/Freemeta-net/FMC/consensus"
 	"github.com/Freemeta-net/FMC/consensus/beacon"
 	"github.com/Freemeta-net/FMC/consensus/clique"
+	"github.com/Freemeta-net/FMC/consensus/taerim"
 	"github.com/Freemeta-net/FMC/core"
 	"github.com/Freemeta-net/FMC/core/bloombits"
 	"github.com/Freemeta-net/FMC/core/rawdb"
@@ -424,6 +425,9 @@ func (s *Ethereum) shouldPreserve(header *types.Header) bool {
 	if _, ok := s.engine.(*clique.Clique); ok {
 		return false
 	}
+	if _, ok := s.engine.(*taerim.Taerim); ok {
+		return false
+	}
 	return s.isLocalBlock(header)
 }
 
@@ -465,21 +469,29 @@ func (s *Ethereum) StartMining(threads int) error {
 			log.Error("Cannot start mining without etherbase", "err", err)
 			return fmt.Errorf("etherbase missing: %v", err)
 		}
-		var cli *clique.Clique
 		if c, ok := s.engine.(*clique.Clique); ok {
-			cli = c
-		} else if cl, ok := s.engine.(*beacon.Beacon); ok {
-			if c, ok := cl.InnerEngine().(*clique.Clique); ok {
-				cli = c
-			}
-		}
-		if cli != nil {
 			wallet, err := s.accountManager.Find(accounts.Account{Address: eb})
 			if wallet == nil || err != nil {
 				log.Error("Etherbase account unavailable locally", "err", err)
 				return fmt.Errorf("signer missing: %v", err)
 			}
-			cli.Authorize(eb, wallet.SignData)
+			c.Authorize(eb, wallet.SignData)
+		} else if cl, ok := s.engine.(*beacon.Beacon); ok {
+			if c, ok := cl.InnerEngine().(*clique.Clique); ok {
+				wallet, err := s.accountManager.Find(accounts.Account{Address: eb})
+				if wallet == nil || err != nil {
+					log.Error("Etherbase account unavailable locally", "err", err)
+					return fmt.Errorf("signer missing: %v", err)
+				}
+				c.Authorize(eb, wallet.SignData)
+			}
+		} else if c, ok := s.engine.(*taerim.Taerim); ok {
+			wallet, err := s.accountManager.Find(accounts.Account{Address: eb})
+			if wallet == nil || err != nil {
+				log.Error("Etherbase account unavailable locally", "err", err)
+				return fmt.Errorf("signer missing: %v", err)
+			}
+			c.Authorize(eb, wallet.SignData)
 		}
 		// If mining is started, we can disable the transaction rejection mechanism
 		// introduced to speed sync times.

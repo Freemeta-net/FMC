@@ -400,6 +400,9 @@ func (g *Genesis) Commit(db ethdb.Database) (*types.Block, error) {
 	if config.Clique != nil && len(block.Extra()) == 0 {
 		return nil, errors.New("can't start clique chain without signers")
 	}
+	if config.Taerim != nil && len(block.Extra()) == 0 {
+		return nil, errors.New("can't start taerim chain without signers")
+	}
 	if err := g.Alloc.write(db, block.Hash()); err != nil {
 		return nil, err
 	}
