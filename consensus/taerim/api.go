@@ -14,7 +14,7 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with the go-ethereum library. If not, see <http://www.gnu.org/licenses/>.
 
-package clique
+package taerim
 
 import (
 	"encoding/json"
@@ -32,7 +32,7 @@ import (
 // mechanisms of the proof-of-authority scheme.
 type API struct {
 	chain  consensus.ChainHeaderReader
-	clique *Clique
+	taerim *Taerim
 }
 
 // GetSnapshot retrieves the state snapshot at a given block.
@@ -48,7 +48,7 @@ func (api *API) GetSnapshot(number *rpc.BlockNumber) (*Snapshot, error) {
 	if header == nil {
 		return nil, errUnknownBlock
 	}
-	return api.clique.snapshot(api.chain, header.Number.Uint64(), header.Hash(), nil)
+	return api.taerim.snapshot(api.chain, header.Number.Uint64(), header.Hash(), nil)
 }
 
 // GetSnapshotAtHash retrieves the state snapshot at a given block.
@@ -57,7 +57,7 @@ func (api *API) GetSnapshotAtHash(hash common.Hash) (*Snapshot, error) {
 	if header == nil {
 		return nil, errUnknownBlock
 	}
-	return api.clique.snapshot(api.chain, header.Number.Uint64(), header.Hash(), nil)
+	return api.taerim.snapshot(api.chain, header.Number.Uint64(), header.Hash(), nil)
 }
 
 // GetSigners retrieves the list of authorized signers at the specified block.
@@ -73,7 +73,7 @@ func (api *API) GetSigners(number *rpc.BlockNumber) ([]common.Address, error) {
 	if header == nil {
 		return nil, errUnknownBlock
 	}
-	snap, err := api.clique.snapshot(api.chain, header.Number.Uint64(), header.Hash(), nil)
+	snap, err := api.taerim.snapshot(api.chain, header.Number.Uint64(), header.Hash(), nil)
 	if err != nil {
 		return nil, err
 	}
@@ -86,7 +86,7 @@ func (api *API) GetSignersAtHash(hash common.Hash) ([]common.Address, error) {
 	if header == nil {
 		return nil, errUnknownBlock
 	}
-	snap, err := api.clique.snapshot(api.chain, header.Number.Uint64(), header.Hash(), nil)
+	snap, err := api.taerim.snapshot(api.chain, header.Number.Uint64(), header.Hash(), nil)
 	if err != nil {
 		return nil, err
 	}
@@ -95,11 +95,11 @@ func (api *API) GetSignersAtHash(hash common.Hash) ([]common.Address, error) {
 
 // Proposals returns the current proposals the node tries to uphold and vote on.
 func (api *API) Proposals() map[common.Address]bool {
-	api.clique.lock.RLock()
-	defer api.clique.lock.RUnlock()
+	api.taerim.lock.RLock()
+	defer api.taerim.lock.RUnlock()
 
 	proposals := make(map[common.Address]bool)
-	for address, auth := range api.clique.proposals {
+	for address, auth := range api.taerim.proposals {
 		proposals[address] = auth
 	}
 	return proposals
@@ -108,19 +108,19 @@ func (api *API) Proposals() map[common.Address]bool {
 // Propose injects a new authorization proposal that the signer will attempt to
 // push through.
 func (api *API) Propose(address common.Address, auth bool) {
-	api.clique.lock.Lock()
-	defer api.clique.lock.Unlock()
+	api.taerim.lock.Lock()
+	defer api.taerim.lock.Unlock()
 
-	api.clique.proposals[address] = auth
+	api.taerim.proposals[address] = auth
 }
 
 // Discard drops a currently running proposal, stopping the signer from casting
 // further votes (either for or against).
 func (api *API) Discard(address common.Address) {
-	api.clique.lock.Lock()
-	defer api.clique.lock.Unlock()
+	api.taerim.lock.Lock()
+	defer api.taerim.lock.Unlock()
 
-	delete(api.clique.proposals, address)
+	delete(api.taerim.proposals, address)
 }
 
 type status struct {
@@ -140,7 +140,7 @@ func (api *API) Status() (*status, error) {
 		diff      = uint64(0)
 		optimals  = 0
 	)
-	snap, err := api.clique.snapshot(api.chain, header.Number.Uint64(), header.Hash(), nil)
+	snap, err := api.taerim.snapshot(api.chain, header.Number.Uint64(), header.Hash(), nil)
 	if err != nil {
 		return nil, err
 	}
@@ -166,7 +166,7 @@ func (api *API) Status() (*status, error) {
 			optimals++
 		}
 		diff += h.Difficulty.Uint64()
-		sealer, err := api.clique.Author(h)
+		sealer, err := api.taerim.Author(h)
 		if err != nil {
 			return nil, err
 		}
@@ -204,7 +204,7 @@ func (sb *blockNumberOrHashOrRLP) UnmarshalJSON(data []byte) error {
 	return nil
 }
 
-// GetSigner returns the signer for a specific clique block.
+// GetSigner returns the signer for a specific taerim block.
 // Can be called with either a blocknumber, blockhash or an rlp encoded blob.
 // The RLP encoded blob can either be a block or a header.
 func (api *API) GetSigner(rlpOrBlockNr *blockNumberOrHashOrRLP) (common.Address, error) {
@@ -221,15 +221,15 @@ func (api *API) GetSigner(rlpOrBlockNr *blockNumberOrHashOrRLP) (common.Address,
 		if header == nil {
 			return common.Address{}, fmt.Errorf("missing block %v", blockNrOrHash.String())
 		}
-		return api.clique.Author(header)
+		return api.taerim.Author(header)
 	}
 	block := new(types.Block)
 	if err := rlp.DecodeBytes(rlpOrBlockNr.RLP, block); err == nil {
-		return api.clique.Author(block.Header())
+		return api.taerim.Author(block.Header())
 	}
 	header := new(types.Header)
 	if err := rlp.DecodeBytes(rlpOrBlockNr.RLP, header); err != nil {
 		return common.Address{}, err
 	}
-	return api.clique.Author(header)
+	return api.taerim.Author(header)
 }

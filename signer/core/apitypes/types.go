@@ -182,8 +182,8 @@ var (
 		accounts.MimetypeTypedData,
 		0x01,
 	}
-	ApplicationClique = SigFormat{
-		accounts.MimetypeClique,
+	ApplicationTaerim = SigFormat{
+		accounts.MimetypeTaerim,
 		0x02,
 	}
 	TextPlain = SigFormat{

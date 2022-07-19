@@ -19,7 +19,7 @@ package web3ext
 
 var Modules = map[string]string{
 	"admin":    AdminJs,
-	"clique":   CliqueJs,
+	"taerim":   TaerimJs,
 	"ethash":   EthashJs,
 	"debug":    DebugJs,
 	"eth":      EthJs,
@@ -32,50 +32,50 @@ var Modules = map[string]string{
 	"vflux":    VfluxJs,
 }
 
-const CliqueJs = `
+const TaerimJs = `
 web3._extend({
-	property: 'clique',
+	property: 'taerim',
 	methods: [
 		new web3._extend.Method({
 			name: 'getSnapshot',
-			call: 'clique_getSnapshot',
+			call: 'taerim_getSnapshot',
 			params: 1,
 			inputFormatter: [web3._extend.formatters.inputBlockNumberFormatter]
 		}),
 		new web3._extend.Method({
 			name: 'getSnapshotAtHash',
-			call: 'clique_getSnapshotAtHash',
+			call: 'taerim_getSnapshotAtHash',
 			params: 1
 		}),
 		new web3._extend.Method({
 			name: 'getSigners',
-			call: 'clique_getSigners',
+			call: 'taerim_getSigners',
 			params: 1,
 			inputFormatter: [web3._extend.formatters.inputBlockNumberFormatter]
 		}),
 		new web3._extend.Method({
 			name: 'getSignersAtHash',
-			call: 'clique_getSignersAtHash',
+			call: 'taerim_getSignersAtHash',
 			params: 1
 		}),
 		new web3._extend.Method({
 			name: 'propose',
-			call: 'clique_propose',
+			call: 'taerim_propose',
 			params: 2
 		}),
 		new web3._extend.Method({
 			name: 'discard',
-			call: 'clique_discard',
+			call: 'taerim_discard',
 			params: 1
 		}),
 		new web3._extend.Method({
 			name: 'status',
-			call: 'clique_status',
+			call: 'taerim_status',
 			params: 0
 		}),
 		new web3._extend.Method({
 			name: 'getSigner',
-			call: 'clique_getSigner',
+			call: 'taerim_getSigner',
 			params: 1,
 			inputFormatter: [null]
 		}),
@@ -83,7 +83,7 @@ web3._extend({
 	properties: [
 		new web3._extend.Property({
 			name: 'proposals',
-			getter: 'clique_proposals'
+			getter: 'taerim_proposals'
 		}),
 	]
 });
@@ -234,8 +234,8 @@ web3._extend({
 			params: 1
 		}),
 		new web3._extend.Method({
-			name: 'testSignCliqueBlock',
-			call: 'debug_testSignCliqueBlock',
+			name: 'testSignTaerimBlock',
+			call: 'debug_testSignTaerimBlock',
 			params: 2,
 			inputFormatter: [web3._extend.formatters.inputAddressFormatter, null],
 		}),

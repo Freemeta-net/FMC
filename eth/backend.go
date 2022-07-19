@@ -31,7 +31,7 @@ import (
 	"github.com/Freemeta-net/FMC/common/hexutil"
 	"github.com/Freemeta-net/FMC/consensus"
 	"github.com/Freemeta-net/FMC/consensus/beacon"
-	"github.com/Freemeta-net/FMC/consensus/clique"
+	"github.com/Freemeta-net/FMC/consensus/taerim"
 	"github.com/Freemeta-net/FMC/core"
 	"github.com/Freemeta-net/FMC/core/bloombits"
 	"github.com/Freemeta-net/FMC/core/rawdb"
@@ -405,7 +405,7 @@ func (s *Ethereum) isLocalBlock(header *types.Header) bool {
 // during the chain reorg depending on whether the author of block
 // is a local account.
 func (s *Ethereum) shouldPreserve(header *types.Header) bool {
-	// The reason we need to disable the self-reorg preserving for clique
+	// The reason we need to disable the self-reorg preserving for taerim
 	// is it can be probable to introduce a deadlock.
 	//
 	// e.g. If there are 7 available signers
@@ -421,7 +421,7 @@ func (s *Ethereum) shouldPreserve(header *types.Header) bool {
 	// is A, F and G sign the block of round5 and reject the block of opponents
 	// and in the round6, the last available signer B is offline, the whole
 	// network is stuck.
-	if _, ok := s.engine.(*clique.Clique); ok {
+	if _, ok := s.engine.(*taerim.Taerim); ok {
 		return false
 	}
 	return s.isLocalBlock(header)
@@ -465,11 +465,11 @@ func (s *Ethereum) StartMining(threads int) error {
 			log.Error("Cannot start mining without etherbase", "err", err)
 			return fmt.Errorf("etherbase missing: %v", err)
 		}
-		var cli *clique.Clique
-		if c, ok := s.engine.(*clique.Clique); ok {
+		var cli *taerim.Taerim
+		if c, ok := s.engine.(*taerim.Taerim); ok {
 			cli = c
 		} else if cl, ok := s.engine.(*beacon.Beacon); ok {
-			if c, ok := cl.InnerEngine().(*clique.Clique); ok {
+			if c, ok := cl.InnerEngine().(*taerim.Taerim); ok {
 				cli = c
 			}
 		}

@@ -21,20 +21,20 @@ import (
 	"reflect"
 	"testing"
 
-	"github.com/davecgh/go-spew/spew"
 	"github.com/Freemeta-net/FMC/common"
 	"github.com/Freemeta-net/FMC/consensus/ethash"
 	"github.com/Freemeta-net/FMC/core/rawdb"
 	"github.com/Freemeta-net/FMC/core/vm"
 	"github.com/Freemeta-net/FMC/ethdb"
 	"github.com/Freemeta-net/FMC/params"
+	"github.com/davecgh/go-spew/spew"
 )
 
-func TestInvalidCliqueConfig(t *testing.T) {
+func TestInvalidTaerimConfig(t *testing.T) {
 	block := DefaultGoerliGenesisBlock()
 	block.ExtraData = []byte{}
 	if _, err := block.Commit(nil); err == nil {
-		t.Fatal("Expected error on invalid clique config")
+		t.Fatal("Expected error on invalid taerim config")
 	}
 }
 

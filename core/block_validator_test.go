@@ -26,8 +26,8 @@ import (
 	"github.com/Freemeta-net/FMC/common"
 	"github.com/Freemeta-net/FMC/consensus"
 	"github.com/Freemeta-net/FMC/consensus/beacon"
-	"github.com/Freemeta-net/FMC/consensus/clique"
 	"github.com/Freemeta-net/FMC/consensus/ethash"
+	"github.com/Freemeta-net/FMC/consensus/taerim"
 	"github.com/Freemeta-net/FMC/core/rawdb"
 	"github.com/Freemeta-net/FMC/core/types"
 	"github.com/Freemeta-net/FMC/core/vm"
@@ -83,11 +83,11 @@ func TestHeaderVerification(t *testing.T) {
 	}
 }
 
-func TestHeaderVerificationForMergingClique(t *testing.T) { testHeaderVerificationForMerging(t, true) }
+func TestHeaderVerificationForMergingTaerim(t *testing.T) { testHeaderVerificationForMerging(t, true) }
 func TestHeaderVerificationForMergingEthash(t *testing.T) { testHeaderVerificationForMerging(t, false) }
 
 // Tests the verification for eth1/2 merging, including pre-merge and post-merge
-func testHeaderVerificationForMerging(t *testing.T, isClique bool) {
+func testHeaderVerificationForMerging(t *testing.T, isTaerim bool) {
 	var (
 		testdb      = rawdb.NewMemoryDatabase()
 		preBlocks   []*types.Block
@@ -96,11 +96,11 @@ func testHeaderVerificationForMerging(t *testing.T, isClique bool) {
 		chainConfig *params.ChainConfig
 		merger      = consensus.NewMerger(rawdb.NewMemoryDatabase())
 	)
-	if isClique {
+	if isTaerim {
 		var (
 			key, _ = crypto.HexToECDSA("b71c71a67e1177ad4e901695e1b4b9ee17ae16c6668d313eac2f96dbcda3f291")
 			addr   = crypto.PubkeyToAddress(key.PublicKey)
-			engine = clique.New(params.AllCliqueProtocolChanges.Clique, testdb)
+			engine = taerim.New(params.AllTaerimProtocolChanges.Taerim, testdb)
 		)
 		genspec := &Genesis{
 			ExtraData: make([]byte, 32+common.AddressLength+crypto.SignatureLength),
@@ -113,7 +113,7 @@ func testHeaderVerificationForMerging(t *testing.T, isClique bool) {
 		genesis := genspec.MustCommit(testdb)
 
 		genEngine := beacon.New(engine)
-		preBlocks, _ = GenerateChain(params.AllCliqueProtocolChanges, genesis, genEngine, testdb, 8, nil)
+		preBlocks, _ = GenerateChain(params.AllTaerimProtocolChanges, genesis, genEngine, testdb, 8, nil)
 		td := 0
 		for i, block := range preBlocks {
 			header := block.Header()
@@ -129,7 +129,7 @@ func testHeaderVerificationForMerging(t *testing.T, isClique bool) {
 			// calculate td
 			td += int(block.Difficulty().Uint64())
 		}
-		config := *params.AllCliqueProtocolChanges
+		config := *params.AllTaerimProtocolChanges
 		config.TerminalTotalDifficulty = big.NewInt(int64(td))
 		postBlocks, _ = GenerateChain(&config, preBlocks[len(preBlocks)-1], genEngine, testdb, 8, nil)
 		chainConfig = &config

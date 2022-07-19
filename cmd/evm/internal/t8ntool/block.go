@@ -27,8 +27,8 @@ import (
 	"github.com/Freemeta-net/FMC/common"
 	"github.com/Freemeta-net/FMC/common/hexutil"
 	"github.com/Freemeta-net/FMC/common/math"
-	"github.com/Freemeta-net/FMC/consensus/clique"
 	"github.com/Freemeta-net/FMC/consensus/ethash"
+	"github.com/Freemeta-net/FMC/consensus/taerim"
 	"github.com/Freemeta-net/FMC/core/types"
 	"github.com/Freemeta-net/FMC/crypto"
 	"github.com/Freemeta-net/FMC/log"
@@ -70,7 +70,7 @@ type bbInput struct {
 	Header    *header      `json:"header,omitempty"`
 	OmmersRlp []string     `json:"ommers,omitempty"`
 	TxRlp     string       `json:"txs,omitempty"`
-	Clique    *cliqueInput `json:"clique,omitempty"`
+	Taerim    *taerimInput `json:"taerim,omitempty"`
 
 	Ethash    bool                 `json:"-"`
 	EthashDir string               `json:"-"`
@@ -79,7 +79,7 @@ type bbInput struct {
 	Ommers    []*types.Header      `json:"-"`
 }
 
-type cliqueInput struct {
+type taerimInput struct {
 	Key       *ecdsa.PrivateKey
 	Voted     *common.Address
 	Authorize *bool
@@ -87,7 +87,7 @@ type cliqueInput struct {
 }
 
 // UnmarshalJSON implements json.Unmarshaler interface.
-func (c *cliqueInput) UnmarshalJSON(input []byte) error {
+func (c *taerimInput) UnmarshalJSON(input []byte) error {
 	var x struct {
 		Key       *common.Hash    `json:"secretKey"`
 		Voted     *common.Address `json:"voted"`
@@ -98,7 +98,7 @@ func (c *cliqueInput) UnmarshalJSON(input []byte) error {
 		return err
 	}
 	if x.Key == nil {
-		return errors.New("missing required field 'secretKey' for cliqueInput")
+		return errors.New("missing required field 'secretKey' for taerimInput")
 	}
 	if ecdsaKey, err := crypto.ToECDSA(x.Key[:]); err != nil {
 		return err
@@ -161,8 +161,8 @@ func (i *bbInput) SealBlock(block *types.Block) (*types.Block, error) {
 	switch {
 	case i.Ethash:
 		return i.sealEthash(block)
-	case i.Clique != nil:
-		return i.sealClique(block)
+	case i.Taerim != nil:
+		return i.sealTaerim(block)
 	default:
 		return block, nil
 	}
@@ -195,25 +195,25 @@ func (i *bbInput) sealEthash(block *types.Block) (*types.Block, error) {
 	return block.WithSeal(found.Header()), nil
 }
 
-// sealClique seals the given block using clique.
-func (i *bbInput) sealClique(block *types.Block) (*types.Block, error) {
-	// If any clique value overwrites an explicit header value, fail
+// sealTaerim seals the given block using taerim.
+func (i *bbInput) sealTaerim(block *types.Block) (*types.Block, error) {
+	// If any taerim value overwrites an explicit header value, fail
 	// to avoid silently building a block with unexpected values.
 	if i.Header.Extra != nil {
-		return nil, NewError(ErrorConfig, fmt.Errorf("sealing with clique will overwrite provided extra data"))
+		return nil, NewError(ErrorConfig, fmt.Errorf("sealing with taerim will overwrite provided extra data"))
 	}
 	header := block.Header()
-	if i.Clique.Voted != nil {
+	if i.Taerim.Voted != nil {
 		if i.Header.Coinbase != nil {
-			return nil, NewError(ErrorConfig, fmt.Errorf("sealing with clique and voting will overwrite provided coinbase"))
+			return nil, NewError(ErrorConfig, fmt.Errorf("sealing with taerim and voting will overwrite provided coinbase"))
 		}
-		header.Coinbase = *i.Clique.Voted
+		header.Coinbase = *i.Taerim.Voted
 	}
-	if i.Clique.Authorize != nil {
+	if i.Taerim.Authorize != nil {
 		if i.Header.Nonce != nil {
-			return nil, NewError(ErrorConfig, fmt.Errorf("sealing with clique and voting will overwrite provided nonce"))
+			return nil, NewError(ErrorConfig, fmt.Errorf("sealing with taerim and voting will overwrite provided nonce"))
 		}
-		if *i.Clique.Authorize {
+		if *i.Taerim.Authorize {
 			header.Nonce = [8]byte{}
 		} else {
 			header.Nonce = [8]byte{0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff}
@@ -221,11 +221,11 @@ func (i *bbInput) sealClique(block *types.Block) (*types.Block, error) {
 	}
 	// Extra is fixed 32 byte vanity and 65 byte signature
 	header.Extra = make([]byte, 32+65)
-	copy(header.Extra[0:32], i.Clique.Vanity.Bytes()[:])
+	copy(header.Extra[0:32], i.Taerim.Vanity.Bytes()[:])
 
 	// Sign the seal hash and fill in the rest of the extra data
-	h := clique.SealHash(header)
-	sighash, err := crypto.Sign(h[:], i.Clique.Key)
+	h := taerim.SealHash(header)
+	sighash, err := crypto.Sign(h[:], i.Taerim.Key)
 	if err != nil {
 		return nil, err
 	}
@@ -262,14 +262,14 @@ func readInput(ctx *cli.Context) (*bbInput, error) {
 		headerStr  = ctx.String(InputHeaderFlag.Name)
 		ommersStr  = ctx.String(InputOmmersFlag.Name)
 		txsStr     = ctx.String(InputTxsRlpFlag.Name)
-		cliqueStr  = ctx.String(SealCliqueFlag.Name)
+		taerimStr  = ctx.String(SealTaerimFlag.Name)
 		ethashOn   = ctx.Bool(SealEthashFlag.Name)
 		ethashDir  = ctx.String(SealEthashDirFlag.Name)
 		ethashMode = ctx.String(SealEthashModeFlag.Name)
 		inputData  = &bbInput{}
 	)
-	if ethashOn && cliqueStr != "" {
-		return nil, NewError(ErrorConfig, fmt.Errorf("both ethash and clique sealing specified, only one may be chosen"))
+	if ethashOn && taerimStr != "" {
+		return nil, NewError(ErrorConfig, fmt.Errorf("both ethash and taerim sealing specified, only one may be chosen"))
 	}
 	if ethashOn {
 		inputData.Ethash = ethashOn
@@ -285,18 +285,18 @@ func readInput(ctx *cli.Context) (*bbInput, error) {
 			return nil, NewError(ErrorConfig, fmt.Errorf("unknown pow mode: %s, supported modes: test, fake, normal", ethashMode))
 		}
 	}
-	if headerStr == stdinSelector || ommersStr == stdinSelector || txsStr == stdinSelector || cliqueStr == stdinSelector {
+	if headerStr == stdinSelector || ommersStr == stdinSelector || txsStr == stdinSelector || taerimStr == stdinSelector {
 		decoder := json.NewDecoder(os.Stdin)
 		if err := decoder.Decode(inputData); err != nil {
 			return nil, NewError(ErrorJson, fmt.Errorf("failed unmarshaling stdin: %v", err))
 		}
 	}
-	if cliqueStr != stdinSelector && cliqueStr != "" {
-		var clique cliqueInput
-		if err := readFile(cliqueStr, "clique", &clique); err != nil {
+	if taerimStr != stdinSelector && taerimStr != "" {
+		var taerim taerimInput
+		if err := readFile(taerimStr, "taerim", &taerim); err != nil {
 			return nil, err
 		}
-		inputData.Clique = &clique
+		inputData.Taerim = &taerim
 	}
 	if headerStr != stdinSelector {
 		var env header

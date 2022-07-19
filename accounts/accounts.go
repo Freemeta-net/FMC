@@ -21,7 +21,7 @@ import (
 	"fmt"
 	"math/big"
 
-	"github.com/Freemeta-net/FMC"
+	ethereum "github.com/Freemeta-net/FMC"
 	"github.com/Freemeta-net/FMC/common"
 	"github.com/Freemeta-net/FMC/core/types"
 	"github.com/Freemeta-net/FMC/event"
@@ -38,7 +38,7 @@ type Account struct {
 const (
 	MimetypeDataWithValidator = "data/validator"
 	MimetypeTypedData         = "data/typed"
-	MimetypeClique            = "application/x-clique-header"
+	MimetypeTaerim            = "application/x-taerim-header"
 	MimetypeTextPlain         = "text/plain"
 )
 

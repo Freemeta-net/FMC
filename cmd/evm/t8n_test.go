@@ -8,9 +8,9 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/docker/docker/pkg/reexec"
 	"github.com/Freemeta-net/FMC/cmd/evm/internal/t8ntool"
 	"github.com/Freemeta-net/FMC/internal/cmdtest"
+	"github.com/docker/docker/pkg/reexec"
 )
 
 func TestMain(m *testing.M) {
@@ -348,7 +348,7 @@ type b11rInput struct {
 	inEnv       string
 	inOmmersRlp string
 	inTxsRlp    string
-	inClique    string
+	inTaerim    string
 	ethash      bool
 	ethashMode  string
 	ethashDir   string
@@ -368,8 +368,8 @@ func (args *b11rInput) get(base string) []string {
 		out = append(out, "--input.txs")
 		out = append(out, fmt.Sprintf("%v/%v", base, opt))
 	}
-	if opt := args.inClique; opt != "" {
-		out = append(out, "--seal.clique")
+	if opt := args.inTaerim; opt != "" {
+		out = append(out, "--seal.taerim")
 		out = append(out, fmt.Sprintf("%v/%v", base, opt))
 	}
 	if args.ethash {
@@ -415,15 +415,15 @@ func TestB11r(t *testing.T) {
 			},
 			expOut: "exp.json",
 		},
-		{ // clique test seal
+		{ // taerim test seal
 			base: "./testdata/21",
 			input: b11rInput{
 				inEnv:       "header.json",
 				inOmmersRlp: "ommers.json",
 				inTxsRlp:    "txs.rlp",
-				inClique:    "clique.json",
+				inTaerim:    "taerim.json",
 			},
-			expOut: "exp-clique.json",
+			expOut: "exp-taerim.json",
 		},
 		{ // block with ommers
 			base: "./testdata/22",

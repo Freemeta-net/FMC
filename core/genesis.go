@@ -397,8 +397,8 @@ func (g *Genesis) Commit(db ethdb.Database) (*types.Block, error) {
 	if err := config.CheckConfigForkOrder(); err != nil {
 		return nil, err
 	}
-	if config.Clique != nil && len(block.Extra()) == 0 {
-		return nil, errors.New("can't start clique chain without signers")
+	if config.Taerim != nil && len(block.Extra()) == 0 {
+		return nil, errors.New("can't start taerim chain without signers")
 	}
 	if err := g.Alloc.write(db, block.Hash()); err != nil {
 		return nil, err
@@ -506,10 +506,10 @@ func DefaultKilnGenesisBlock() *Genesis {
 // DeveloperGenesisBlock returns the 'geth --dev' genesis block.
 func DeveloperGenesisBlock(period uint64, gasLimit uint64, faucet common.Address) *Genesis {
 	// Override the default period to the user requested one
-	config := *params.AllCliqueProtocolChanges
-	config.Clique = &params.CliqueConfig{
+	config := *params.AllTaerimProtocolChanges
+	config.Taerim = &params.TaerimConfig{
 		Period: period,
-		Epoch:  config.Clique.Epoch,
+		Epoch:  config.Taerim.Epoch,
 	}
 
 	// Assemble and return the genesis with the precompiles and faucet pre-funded

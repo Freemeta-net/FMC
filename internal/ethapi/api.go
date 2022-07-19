@@ -24,7 +24,6 @@ import (
 	"strings"
 	"time"
 
-	"github.com/davecgh/go-spew/spew"
 	"github.com/Freemeta-net/FMC/accounts"
 	"github.com/Freemeta-net/FMC/accounts/abi"
 	"github.com/Freemeta-net/FMC/accounts/keystore"
@@ -32,9 +31,9 @@ import (
 	"github.com/Freemeta-net/FMC/common"
 	"github.com/Freemeta-net/FMC/common/hexutil"
 	"github.com/Freemeta-net/FMC/common/math"
-	"github.com/Freemeta-net/FMC/consensus/clique"
 	"github.com/Freemeta-net/FMC/consensus/ethash"
 	"github.com/Freemeta-net/FMC/consensus/misc"
+	"github.com/Freemeta-net/FMC/consensus/taerim"
 	"github.com/Freemeta-net/FMC/core"
 	"github.com/Freemeta-net/FMC/core/state"
 	"github.com/Freemeta-net/FMC/core/types"
@@ -46,6 +45,7 @@ import (
 	"github.com/Freemeta-net/FMC/params"
 	"github.com/Freemeta-net/FMC/rlp"
 	"github.com/Freemeta-net/FMC/rpc"
+	"github.com/davecgh/go-spew/spew"
 	"github.com/tyler-smith/go-bip39"
 )
 
@@ -1936,19 +1936,19 @@ func (api *PublicDebugAPI) GetBlockRlp(ctx context.Context, number uint64) (hexu
 	return rlp.EncodeToBytes(block)
 }
 
-// TestSignCliqueBlock fetches the given block number, and attempts to sign it as a clique header with the
+// TestSignTaerimBlock fetches the given block number, and attempts to sign it as a taerim header with the
 // given address, returning the address of the recovered signature
 //
 // This is a temporary method to debug the externalsigner integration,
 // TODO: Remove this method when the integration is mature
-func (api *PublicDebugAPI) TestSignCliqueBlock(ctx context.Context, address common.Address, number uint64) (common.Address, error) {
+func (api *PublicDebugAPI) TestSignTaerimBlock(ctx context.Context, address common.Address, number uint64) (common.Address, error) {
 	block, _ := api.b.BlockByNumber(ctx, rpc.BlockNumber(number))
 	if block == nil {
 		return common.Address{}, fmt.Errorf("block #%d not found", number)
 	}
 	header := block.Header()
 	header.Extra = make([]byte, 32+65)
-	encoded := clique.CliqueRLP(header)
+	encoded := taerim.TaerimRLP(header)
 
 	// Look up the wallet containing the requested signer
 	account := accounts.Account{Address: address}
@@ -1957,12 +1957,12 @@ func (api *PublicDebugAPI) TestSignCliqueBlock(ctx context.Context, address comm
 		return common.Address{}, err
 	}
 
-	signature, err := wallet.SignData(account, accounts.MimetypeClique, encoded)
+	signature, err := wallet.SignData(account, accounts.MimetypeTaerim, encoded)
 	if err != nil {
 		return common.Address{}, err
 	}
-	sealHash := clique.SealHash(header).Bytes()
-	log.Info("test signing of clique block",
+	sealHash := taerim.SealHash(header).Bytes()
+	log.Info("test signing of taerim block",
 		"Sealhash", fmt.Sprintf("%x", sealHash),
 		"signature", fmt.Sprintf("%x", signature))
 	pubkey, err := crypto.Ecrecover(sealHash, signature)

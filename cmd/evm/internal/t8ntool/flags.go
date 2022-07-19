@@ -115,9 +115,9 @@ var (
 		Usage: "`stdin` or file name of where to find the transactions list in RLP form.",
 		Value: "txs.rlp",
 	}
-	SealCliqueFlag = cli.StringFlag{
-		Name:  "seal.clique",
-		Usage: "Seal block with Clique. `stdin` or file name of where to find the Clique sealing data.",
+	SealTaerimFlag = cli.StringFlag{
+		Name:  "seal.taerim",
+		Usage: "Seal block with Taerim. `stdin` or file name of where to find the Taerim sealing data.",
 	}
 	SealEthashFlag = cli.BoolFlag{
 		Name:  "seal.ethash",

@@ -23,7 +23,7 @@ import (
 	"time"
 
 	"github.com/Freemeta-net/FMC/common"
-	"github.com/Freemeta-net/FMC/consensus/clique"
+	"github.com/Freemeta-net/FMC/consensus/taerim"
 	"github.com/Freemeta-net/FMC/core"
 	"github.com/Freemeta-net/FMC/core/rawdb"
 	"github.com/Freemeta-net/FMC/core/state"
@@ -255,7 +255,7 @@ func createMiner(t *testing.T) (*Miner, *event.TypeMux, func(skipMiner bool)) {
 		t.Fatalf("can't create new chain config: %v", err)
 	}
 	// Create consensus engine
-	engine := clique.New(chainConfig.Clique, chainDB)
+	engine := taerim.New(chainConfig.Taerim, chainDB)
 	// Create Ethereum backend
 	bc, err := core.NewBlockChain(chainDB, nil, chainConfig, engine, vm.Config{}, nil, nil)
 	if err != nil {

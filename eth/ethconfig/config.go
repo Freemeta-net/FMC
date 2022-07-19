@@ -28,8 +28,8 @@ import (
 	"github.com/Freemeta-net/FMC/common"
 	"github.com/Freemeta-net/FMC/consensus"
 	"github.com/Freemeta-net/FMC/consensus/beacon"
-	"github.com/Freemeta-net/FMC/consensus/clique"
 	"github.com/Freemeta-net/FMC/consensus/ethash"
+	"github.com/Freemeta-net/FMC/consensus/taerim"
 	"github.com/Freemeta-net/FMC/core"
 	"github.com/Freemeta-net/FMC/eth/downloader"
 	"github.com/Freemeta-net/FMC/eth/gasprice"
@@ -216,8 +216,8 @@ type Config struct {
 func CreateConsensusEngine(stack *node.Node, chainConfig *params.ChainConfig, config *ethash.Config, notify []string, noverify bool, db ethdb.Database) consensus.Engine {
 	// If proof-of-authority is requested, set it up
 	var engine consensus.Engine
-	if chainConfig.Clique != nil {
-		engine = clique.New(chainConfig.Clique, db)
+	if chainConfig.Taerim != nil {
+		engine = taerim.New(chainConfig.Taerim, db)
 	} else {
 		switch config.PowMode {
 		case ethash.ModeFake:

@@ -25,7 +25,7 @@ import (
 	"github.com/Freemeta-net/FMC/accounts"
 	"github.com/Freemeta-net/FMC/common"
 	"github.com/Freemeta-net/FMC/common/hexutil"
-	"github.com/Freemeta-net/FMC/consensus/clique"
+	"github.com/Freemeta-net/FMC/consensus/taerim"
 	"github.com/Freemeta-net/FMC/core/types"
 	"github.com/Freemeta-net/FMC/crypto"
 	"github.com/Freemeta-net/FMC/rlp"
@@ -133,21 +133,21 @@ func (api *SignerAPI) determineSignatureFormat(ctx context.Context, contentType 
 			},
 		}
 		req = &SignDataRequest{ContentType: mediaType, Rawdata: []byte(msg), Messages: messages, Hash: sighash}
-	case apitypes.ApplicationClique.Mime:
-		// Clique is the Ethereum PoA standard
+	case apitypes.ApplicationTaerim.Mime:
+		// Taerim is the Ethereum PoA standard
 		stringData, ok := data.(string)
 		if !ok {
-			return nil, useEthereumV, fmt.Errorf("input for %v must be an hex-encoded string", apitypes.ApplicationClique.Mime)
+			return nil, useEthereumV, fmt.Errorf("input for %v must be an hex-encoded string", apitypes.ApplicationTaerim.Mime)
 		}
-		cliqueData, err := hexutil.Decode(stringData)
+		taerimData, err := hexutil.Decode(stringData)
 		if err != nil {
 			return nil, useEthereumV, err
 		}
 		header := &types.Header{}
-		if err := rlp.DecodeBytes(cliqueData, header); err != nil {
+		if err := rlp.DecodeBytes(taerimData, header); err != nil {
 			return nil, useEthereumV, err
 		}
-		// The incoming clique header is already truncated, sent to us with a extradata already shortened
+		// The incoming taerim header is already truncated, sent to us with a extradata already shortened
 		if len(header.Extra) < 65 {
 			// Need to add it back, to get a suitable length for hashing
 			newExtra := make([]byte, len(header.Extra)+65)
@@ -155,20 +155,20 @@ func (api *SignerAPI) determineSignatureFormat(ctx context.Context, contentType 
 			header.Extra = newExtra
 		}
 		// Get back the rlp data, encoded by us
-		sighash, cliqueRlp, err := cliqueHeaderHashAndRlp(header)
+		sighash, taerimRlp, err := taerimHeaderHashAndRlp(header)
 		if err != nil {
 			return nil, useEthereumV, err
 		}
 		messages := []*apitypes.NameValueType{
 			{
-				Name:  "Clique header",
-				Typ:   "clique",
-				Value: fmt.Sprintf("clique header %d [0x%x]", header.Number, header.Hash()),
+				Name:  "Taerim header",
+				Typ:   "taerim",
+				Value: fmt.Sprintf("taerim header %d [0x%x]", header.Number, header.Hash()),
 			},
 		}
-		// Clique uses V on the form 0 or 1
+		// Taerim uses V on the form 0 or 1
 		useEthereumV = false
-		req = &SignDataRequest{ContentType: mediaType, Rawdata: cliqueRlp, Messages: messages, Hash: sighash}
+		req = &SignDataRequest{ContentType: mediaType, Rawdata: taerimRlp, Messages: messages, Hash: sighash}
 	default: // also case TextPlain.Mime:
 		// Calculates an Ethereum ECDSA signature for:
 		// hash = keccak256("\x19${byteVersion}Ethereum Signed Message:\n${message length}${message}")
@@ -204,20 +204,20 @@ func SignTextValidator(validatorData apitypes.ValidatorData) (hexutil.Bytes, str
 	return crypto.Keccak256([]byte(msg)), msg
 }
 
-// cliqueHeaderHashAndRlp returns the hash which is used as input for the proof-of-authority
+// taerimHeaderHashAndRlp returns the hash which is used as input for the proof-of-authority
 // signing. It is the hash of the entire header apart from the 65 byte signature
 // contained at the end of the extra data.
 //
 // The method requires the extra data to be at least 65 bytes -- the original implementation
-// in clique.go panics if this is the case, thus it's been reimplemented here to avoid the panic
+// in taerim.go panics if this is the case, thus it's been reimplemented here to avoid the panic
 // and simply return an error instead
-func cliqueHeaderHashAndRlp(header *types.Header) (hash, rlp []byte, err error) {
+func taerimHeaderHashAndRlp(header *types.Header) (hash, rlp []byte, err error) {
 	if len(header.Extra) < 65 {
-		err = fmt.Errorf("clique header extradata too short, %d < 65", len(header.Extra))
+		err = fmt.Errorf("taerim header extradata too short, %d < 65", len(header.Extra))
 		return
 	}
-	rlp = clique.CliqueRLP(header)
-	hash = clique.SealHash(header).Bytes()
+	rlp = taerim.TaerimRLP(header)
+	hash = taerim.SealHash(header).Bytes()
 	return hash, rlp, err
 }
 

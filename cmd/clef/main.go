@@ -866,10 +866,10 @@ func testExternalUI(api *core.SignerAPI) {
 		time.Sleep(delay)
 		expectResponse("showerror", "Did you see the message? [yes/no]", "yes")
 	}
-	{ // Sign data test - clique header
-		api.UI.ShowInfo("Please approve the next request for signing a clique header")
+	{ // Sign data test - taerim header
+		api.UI.ShowInfo("Please approve the next request for signing a taerim header")
 		time.Sleep(delay)
-		cliqueHeader := types.Header{
+		taerimHeader := types.Header{
 			ParentHash:  common.HexToHash("0000H45H"),
 			UncleHash:   common.HexToHash("0000H45H"),
 			Coinbase:    common.HexToAddress("0000H45H"),
@@ -884,13 +884,13 @@ func testExternalUI(api *core.SignerAPI) {
 			Extra:       []byte("Extra data Extra data Extra data  Extra data  Extra data  Extra data  Extra data Extra data"),
 			MixDigest:   common.HexToHash("0x0000H45H"),
 		}
-		cliqueRlp, err := rlp.EncodeToBytes(cliqueHeader)
+		taerimRlp, err := rlp.EncodeToBytes(taerimHeader)
 		if err != nil {
 			utils.Fatalf("Should not error: %v", err)
 		}
 		addr, _ := common.NewMixedcaseAddressFromString("0x0011223344556677889900112233445566778899")
-		_, err = api.SignData(ctx, accounts.MimetypeClique, *addr, hexutil.Encode(cliqueRlp))
-		expectApprove("signdata - clique header", err)
+		_, err = api.SignData(ctx, accounts.MimetypeTaerim, *addr, hexutil.Encode(taerimRlp))
+		expectApprove("signdata - taerim header", err)
 	}
 	{ // Sign data test - typed data
 		api.UI.ShowInfo("Please approve the next request for signing EIP-712 typed data")

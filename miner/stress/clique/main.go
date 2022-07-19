@@ -14,7 +14,7 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with the go-ethereum library. If not, see <http://www.gnu.org/licenses/>.
 
-// This file contains a miner stress test based on the Clique consensus engine.
+// This file contains a miner stress test based on the Taerim consensus engine.
 package main
 
 import (
@@ -57,7 +57,7 @@ func main() {
 	for i := 0; i < len(sealers); i++ {
 		sealers[i], _ = crypto.GenerateKey()
 	}
-	// Create a Clique network based off of the Rinkeby config
+	// Create a Taerim network based off of the Rinkeby config
 	genesis := makeGenesis(faucets, sealers)
 
 	// Handle interrupts.
@@ -144,15 +144,15 @@ func main() {
 	}
 }
 
-// makeGenesis creates a custom Clique genesis block based on some pre-defined
+// makeGenesis creates a custom Taerim genesis block based on some pre-defined
 // signer and faucet accounts.
 func makeGenesis(faucets []*ecdsa.PrivateKey, sealers []*ecdsa.PrivateKey) *core.Genesis {
-	// Create a Clique network based off of the Rinkeby config
+	// Create a Taerim network based off of the Rinkeby config
 	genesis := core.DefaultRinkebyGenesisBlock()
 	genesis.GasLimit = 25000000
 
 	genesis.Config.ChainID = big.NewInt(18)
-	genesis.Config.Clique.Period = 1
+	genesis.Config.Taerim.Period = 1
 	genesis.Config.EIP150Hash = common.Hash{}
 
 	genesis.Alloc = core.GenesisAlloc{}

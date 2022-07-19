@@ -342,7 +342,7 @@ func NewBlockChain(db ethdb.Database, cacheConfig *CacheConfig, chainConfig *par
 		}
 	}
 	// The first thing the node will do is reconstruct the verification data for
-	// the head block (ethash cache or clique voting snapshot). Might as well do
+	// the head block (ethash cache or taerim voting snapshot). Might as well do
 	// it in advance.
 	bc.engine.VerifyHeader(bc, bc.CurrentHeader(), true)
 
@@ -1530,14 +1530,14 @@ func (bc *BlockChain) insertChain(chain types.Blocks, verifySeals, setHead bool)
 			return it.index, ErrBannedHash
 		}
 		// If the block is known (in the middle of the chain), it's a special case for
-		// Clique blocks where they can share state among each other, so importing an
+		// Taerim blocks where they can share state among each other, so importing an
 		// older block might complete the state of the subsequent one. In this case,
 		// just skip the block (we already validated it once fully (and crashed), since
 		// its header and body was already in the database). But if the corresponding
 		// snapshot layer is missing, forcibly rerun the execution to build it.
 		if bc.skipBlock(err, it) {
 			logger := log.Debug
-			if bc.chainConfig.Clique == nil {
+			if bc.chainConfig.Taerim == nil {
 				logger = log.Warn
 			}
 			logger("Inserted known block", "number", block.Number(), "hash", block.Hash(),
@@ -1545,7 +1545,7 @@ func (bc *BlockChain) insertChain(chain types.Blocks, verifySeals, setHead bool)
 				"root", block.Root())
 
 			// Special case. Commit the empty receipt slice if we meet the known
-			// block in the middle. It can only happen in the clique chain. Whenever
+			// block in the middle. It can only happen in the taerim chain. Whenever
 			// we insert blocks via `insertSideChain`, we only commit `td`, `header`
 			// and `body` if it's non-existent. Since we don't have receipts without
 			// reexecution, so nothing to commit. But if the sidechain will be adpoted
@@ -1564,7 +1564,7 @@ func (bc *BlockChain) insertChain(chain types.Blocks, verifySeals, setHead bool)
 			stats.processed++
 
 			// We can assume that logs are empty here, since the only way for consecutive
-			// Clique blocks to have the same state is if there are no transactions.
+			// Taerim blocks to have the same state is if there are no transactions.
 			lastCanon = block
 			continue
 		}

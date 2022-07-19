@@ -27,8 +27,8 @@ import (
 	"github.com/Freemeta-net/FMC/accounts"
 	"github.com/Freemeta-net/FMC/common"
 	"github.com/Freemeta-net/FMC/consensus"
-	"github.com/Freemeta-net/FMC/consensus/clique"
 	"github.com/Freemeta-net/FMC/consensus/ethash"
+	"github.com/Freemeta-net/FMC/consensus/taerim"
 	"github.com/Freemeta-net/FMC/core"
 	"github.com/Freemeta-net/FMC/core/rawdb"
 	"github.com/Freemeta-net/FMC/core/state"
@@ -53,7 +53,7 @@ var (
 	// Test chain configurations
 	testTxPoolConfig  core.TxPoolConfig
 	ethashChainConfig *params.ChainConfig
-	cliqueChainConfig *params.ChainConfig
+	taerimChainConfig *params.ChainConfig
 
 	// Test accounts
 	testBankKey, _  = crypto.GenerateKey()
@@ -78,9 +78,9 @@ func init() {
 	testTxPoolConfig.Journal = ""
 	ethashChainConfig = new(params.ChainConfig)
 	*ethashChainConfig = *params.TestChainConfig
-	cliqueChainConfig = new(params.ChainConfig)
-	*cliqueChainConfig = *params.TestChainConfig
-	cliqueChainConfig.Clique = &params.CliqueConfig{
+	taerimChainConfig = new(params.ChainConfig)
+	*taerimChainConfig = *params.TestChainConfig
+	taerimChainConfig.Taerim = &params.TaerimConfig{
 		Period: 10,
 		Epoch:  30000,
 	}
@@ -125,7 +125,7 @@ func newTestWorkerBackend(t *testing.T, chainConfig *params.ChainConfig, engine 
 	}
 
 	switch e := engine.(type) {
-	case *clique.Clique:
+	case *taerim.Taerim:
 		gspec.ExtraData = make([]byte, 32+common.AddressLength+crypto.SignatureLength)
 		copy(gspec.ExtraData[32:32+common.AddressLength], testBankAddress.Bytes())
 		e.Authorize(testBankAddress, func(account accounts.Account, s string, data []byte) ([]byte, error) {
@@ -211,20 +211,20 @@ func TestGenerateBlockAndImportEthash(t *testing.T) {
 	testGenerateBlockAndImport(t, false)
 }
 
-func TestGenerateBlockAndImportClique(t *testing.T) {
+func TestGenerateBlockAndImportTaerim(t *testing.T) {
 	testGenerateBlockAndImport(t, true)
 }
 
-func testGenerateBlockAndImport(t *testing.T, isClique bool) {
+func testGenerateBlockAndImport(t *testing.T, isTaerim bool) {
 	var (
 		engine      consensus.Engine
 		chainConfig *params.ChainConfig
 		db          = rawdb.NewMemoryDatabase()
 	)
-	if isClique {
-		chainConfig = params.AllCliqueProtocolChanges
-		chainConfig.Clique = &params.CliqueConfig{Period: 1, Epoch: 30000}
-		engine = clique.New(chainConfig.Clique, db)
+	if isTaerim {
+		chainConfig = params.AllTaerimProtocolChanges
+		chainConfig.Taerim = &params.TaerimConfig{Period: 1, Epoch: 30000}
+		engine = taerim.New(chainConfig.Taerim, db)
 	} else {
 		chainConfig = params.AllEthashProtocolChanges
 		engine = ethash.NewFaker()
@@ -273,8 +273,8 @@ func testGenerateBlockAndImport(t *testing.T, isClique bool) {
 func TestEmptyWorkEthash(t *testing.T) {
 	testEmptyWork(t, ethashChainConfig, ethash.NewFaker())
 }
-func TestEmptyWorkClique(t *testing.T) {
-	testEmptyWork(t, cliqueChainConfig, clique.New(cliqueChainConfig.Clique, rawdb.NewMemoryDatabase()))
+func TestEmptyWorkTaerim(t *testing.T) {
+	testEmptyWork(t, taerimChainConfig, taerim.New(taerimChainConfig.Taerim, rawdb.NewMemoryDatabase()))
 }
 
 func testEmptyWork(t *testing.T, chainConfig *params.ChainConfig, engine consensus.Engine) {
@@ -377,8 +377,8 @@ func TestRegenerateMiningBlockEthash(t *testing.T) {
 	testRegenerateMiningBlock(t, ethashChainConfig, ethash.NewFaker())
 }
 
-func TestRegenerateMiningBlockClique(t *testing.T) {
-	testRegenerateMiningBlock(t, cliqueChainConfig, clique.New(cliqueChainConfig.Clique, rawdb.NewMemoryDatabase()))
+func TestRegenerateMiningBlockTaerim(t *testing.T) {
+	testRegenerateMiningBlock(t, taerimChainConfig, taerim.New(taerimChainConfig.Taerim, rawdb.NewMemoryDatabase()))
 }
 
 func testRegenerateMiningBlock(t *testing.T, chainConfig *params.ChainConfig, engine consensus.Engine) {
@@ -437,8 +437,8 @@ func TestAdjustIntervalEthash(t *testing.T) {
 	testAdjustInterval(t, ethashChainConfig, ethash.NewFaker())
 }
 
-func TestAdjustIntervalClique(t *testing.T) {
-	testAdjustInterval(t, cliqueChainConfig, clique.New(cliqueChainConfig.Clique, rawdb.NewMemoryDatabase()))
+func TestAdjustIntervalTaerim(t *testing.T) {
+	testAdjustInterval(t, taerimChainConfig, taerim.New(taerimChainConfig.Taerim, rawdb.NewMemoryDatabase()))
 }
 
 func testAdjustInterval(t *testing.T, chainConfig *params.ChainConfig, engine consensus.Engine) {
@@ -531,8 +531,8 @@ func TestGetSealingWorkEthash(t *testing.T) {
 	testGetSealingWork(t, ethashChainConfig, ethash.NewFaker(), false)
 }
 
-func TestGetSealingWorkClique(t *testing.T) {
-	testGetSealingWork(t, cliqueChainConfig, clique.New(cliqueChainConfig.Clique, rawdb.NewMemoryDatabase()), false)
+func TestGetSealingWorkTaerim(t *testing.T) {
+	testGetSealingWork(t, taerimChainConfig, taerim.New(taerimChainConfig.Taerim, rawdb.NewMemoryDatabase()), false)
 }
 
 func TestGetSealingWorkPostMerge(t *testing.T) {
@@ -567,8 +567,8 @@ func testGetSealingWork(t *testing.T, chainConfig *params.ChainConfig, engine co
 		if len(block.Uncles()) != 0 {
 			t.Error("Unexpected uncle block")
 		}
-		_, isClique := engine.(*clique.Clique)
-		if !isClique {
+		_, isTaerim := engine.(*taerim.Taerim)
+		if !isTaerim {
 			if len(block.Extra()) != 0 {
 				t.Error("Unexpected extra field")
 			}
@@ -580,7 +580,7 @@ func testGetSealingWork(t *testing.T, chainConfig *params.ChainConfig, engine co
 				t.Error("Unexpected coinbase")
 			}
 		}
-		if !isClique {
+		if !isTaerim {
 			if block.MixDigest() != random {
 				t.Error("Unexpected mix digest")
 			}

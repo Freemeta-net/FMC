@@ -72,7 +72,7 @@ func (b *BlockGen) SetNonce(nonce types.BlockNonce) {
 }
 
 // SetDifficulty sets the difficulty field of the generated block. This method is
-// useful for Clique tests where the difficulty does not depend on time. For the
+// useful for Taerim tests where the difficulty does not depend on time. For the
 // ethash tests, please use OffsetTime, which implicitly recalculates the diff.
 func (b *BlockGen) SetDifficulty(diff *big.Int) {
 	b.header.Difficulty = diff
@@ -227,12 +227,12 @@ func GenerateChain(config *params.ChainConfig, parent *types.Block, engine conse
 		b := &BlockGen{i: i, chain: blocks, parent: parent, statedb: statedb, config: config, engine: engine}
 		b.header = makeHeader(chainreader, parent, statedb, b.engine)
 
-		// Set the difficulty for clique block. The chain maker doesn't have access
+		// Set the difficulty for taerim block. The chain maker doesn't have access
 		// to a chain, so the difficulty will be left unset (nil). Set it here to the
 		// correct value.
 		if b.header.Difficulty == nil {
 			if config.TerminalTotalDifficulty == nil {
-				// Clique chain
+				// Taerim chain
 				b.header.Difficulty = big.NewInt(2)
 			} else {
 				// Post-merge chain

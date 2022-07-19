@@ -183,7 +183,7 @@ var (
 		BerlinBlock:         big.NewInt(8_290_928),
 		LondonBlock:         big.NewInt(8_897_988),
 		ArrowGlacierBlock:   nil,
-		Clique: &CliqueConfig{
+		Taerim: &TaerimConfig{
 			Period: 15,
 			Epoch:  30000,
 		},
@@ -226,7 +226,7 @@ var (
 		BerlinBlock:         big.NewInt(4_460_644),
 		LondonBlock:         big.NewInt(5_062_605),
 		ArrowGlacierBlock:   nil,
-		Clique: &CliqueConfig{
+		Taerim: &TaerimConfig{
 			Period: 15,
 			Epoch:  30000,
 		},
@@ -260,12 +260,12 @@ var (
 	// adding flags to the config to also have to set these fields.
 	AllEthashProtocolChanges = &ChainConfig{big.NewInt(1337), big.NewInt(0), nil, false, big.NewInt(0), common.Hash{}, big.NewInt(0), big.NewInt(0), big.NewInt(0), big.NewInt(0), big.NewInt(0), big.NewInt(0), big.NewInt(0), big.NewInt(0), big.NewInt(0), big.NewInt(0), nil, nil, new(EthashConfig), nil}
 
-	// AllCliqueProtocolChanges contains every protocol change (EIPs) introduced
-	// and accepted by the Ethereum core developers into the Clique consensus.
+	// AllTaerimProtocolChanges contains every protocol change (EIPs) introduced
+	// and accepted by the Ethereum core developers into the Taerim consensus.
 	//
 	// This configuration is intentionally not using keyed fields to force anyone
 	// adding flags to the config to also have to set these fields.
-	AllCliqueProtocolChanges = &ChainConfig{big.NewInt(1337), big.NewInt(0), nil, false, big.NewInt(0), common.Hash{}, big.NewInt(0), big.NewInt(0), big.NewInt(0), big.NewInt(0), big.NewInt(0), big.NewInt(0), big.NewInt(0), big.NewInt(0), big.NewInt(0), nil, nil, nil, nil, &CliqueConfig{Period: 0, Epoch: 30000}}
+	AllTaerimProtocolChanges = &ChainConfig{big.NewInt(1337), big.NewInt(0), nil, false, big.NewInt(0), common.Hash{}, big.NewInt(0), big.NewInt(0), big.NewInt(0), big.NewInt(0), big.NewInt(0), big.NewInt(0), big.NewInt(0), big.NewInt(0), big.NewInt(0), nil, nil, nil, nil, &TaerimConfig{Period: 0, Epoch: 30000}}
 
 	TestChainConfig = &ChainConfig{big.NewInt(1), big.NewInt(0), nil, false, big.NewInt(0), common.Hash{}, big.NewInt(0), big.NewInt(0), big.NewInt(0), big.NewInt(0), big.NewInt(0), big.NewInt(0), big.NewInt(0), big.NewInt(0), big.NewInt(0), big.NewInt(0), nil, nil, new(EthashConfig), nil}
 	TestRules       = TestChainConfig.Rules(new(big.Int), false)
@@ -355,7 +355,7 @@ type ChainConfig struct {
 
 	// Various consensus engines
 	Ethash *EthashConfig `json:"ethash,omitempty"`
-	Clique *CliqueConfig `json:"clique,omitempty"`
+	Taerim *TaerimConfig `json:"taerim,omitempty"`
 }
 
 // EthashConfig is the consensus engine configs for proof-of-work based sealing.
@@ -366,15 +366,15 @@ func (c *EthashConfig) String() string {
 	return "ethash"
 }
 
-// CliqueConfig is the consensus engine configs for proof-of-authority based sealing.
-type CliqueConfig struct {
+// TaerimConfig is the consensus engine configs for proof-of-authority based sealing.
+type TaerimConfig struct {
 	Period uint64 `json:"period"` // Number of seconds between blocks to enforce
 	Epoch  uint64 `json:"epoch"`  // Epoch length to reset votes and checkpoint
 }
 
 // String implements the stringer interface, returning the consensus engine details.
-func (c *CliqueConfig) String() string {
-	return "clique"
+func (c *TaerimConfig) String() string {
+	return "taerim"
 }
 
 // String implements the fmt.Stringer interface.
@@ -383,8 +383,8 @@ func (c *ChainConfig) String() string {
 	switch {
 	case c.Ethash != nil:
 		engine = c.Ethash
-	case c.Clique != nil:
-		engine = c.Clique
+	case c.Taerim != nil:
+		engine = c.Taerim
 	default:
 		engine = "unknown"
 	}
