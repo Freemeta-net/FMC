@@ -21,7 +21,7 @@ import (
 	"fmt"
 	"math/big"
 
-	ethereum "github.com/Freemeta-net/FMC"
+	"github.com/Freemeta-net/FMC"
 	"github.com/Freemeta-net/FMC/common"
 	"github.com/Freemeta-net/FMC/core/types"
 	"github.com/Freemeta-net/FMC/event"
@@ -39,7 +39,6 @@ const (
 	MimetypeDataWithValidator = "data/validator"
 	MimetypeTypedData         = "data/typed"
 	MimetypeClique            = "application/x-clique-header"
-	MimetypeTaerim            = "application/x-taerim-header"
 	MimetypeTextPlain         = "text/plain"
 )
 

@@ -30,7 +30,6 @@ import (
 	"github.com/Freemeta-net/FMC/consensus/beacon"
 	"github.com/Freemeta-net/FMC/consensus/clique"
 	"github.com/Freemeta-net/FMC/consensus/ethash"
-	"github.com/Freemeta-net/FMC/consensus/taerim"
 	"github.com/Freemeta-net/FMC/core"
 	"github.com/Freemeta-net/FMC/eth/downloader"
 	"github.com/Freemeta-net/FMC/eth/gasprice"
@@ -219,8 +218,6 @@ func CreateConsensusEngine(stack *node.Node, chainConfig *params.ChainConfig, co
 	var engine consensus.Engine
 	if chainConfig.Clique != nil {
 		engine = clique.New(chainConfig.Clique, db)
-	} else if chainConfig.Taerim != nil {
-		engine = taerim.New(chainConfig.Taerim, db)
 	} else {
 		switch config.PowMode {
 		case ethash.ModeFake:

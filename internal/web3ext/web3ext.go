@@ -19,7 +19,6 @@ package web3ext
 
 var Modules = map[string]string{
 	"admin":    AdminJs,
-	"taerim":   TaerimJs,
 	"clique":   CliqueJs,
 	"ethash":   EthashJs,
 	"debug":    DebugJs,
@@ -32,63 +31,6 @@ var Modules = map[string]string{
 	"les":      LESJs,
 	"vflux":    VfluxJs,
 }
-
-const TaerimJs = `
-web3._extend({
-	property: 'taerim',
-	methods: [
-		new web3._extend.Method({
-			name: 'getSnapshot',
-			call: 'taerim_getSnapshot',
-			params: 1,
-			inputFormatter: [web3._extend.formatters.inputBlockNumberFormatter]
-		}),
-		new web3._extend.Method({
-			name: 'getSnapshotAtHash',
-			call: 'taerim_getSnapshotAtHash',
-			params: 1
-		}),
-		new web3._extend.Method({
-			name: 'getSigners',
-			call: 'taerim_getSigners',
-			params: 1,
-			inputFormatter: [web3._extend.formatters.inputBlockNumberFormatter]
-		}),
-		new web3._extend.Method({
-			name: 'getSignersAtHash',
-			call: 'taerim_getSignersAtHash',
-			params: 1
-		}),
-		new web3._extend.Method({
-			name: 'propose',
-			call: 'taerim_propose',
-			params: 2
-		}),
-		new web3._extend.Method({
-			name: 'discard',
-			call: 'taerim_discard',
-			params: 1
-		}),
-		new web3._extend.Method({
-			name: 'status',
-			call: 'taerim_status',
-			params: 0
-		}),
-		new web3._extend.Method({
-			name: 'getSigner',
-			call: 'taerim_getSigner',
-			params: 1,
-			inputFormatter: [null]
-		}),
-	],
-	properties: [
-		new web3._extend.Property({
-			name: 'proposals',
-			getter: 'taerim_proposals'
-		}),
-	]
-});
-`
 
 const CliqueJs = `
 web3._extend({
